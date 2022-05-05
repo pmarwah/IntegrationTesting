@@ -1,0 +1,8 @@
+{
+    "name": "testing",
+    "version": "0.1.0",
+    "scripts": {},
+    "devDependencies": {
+        "gh-pages": "^3.2.3"
+    }
+}
