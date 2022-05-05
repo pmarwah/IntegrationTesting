@@ -1,0 +1,61 @@
+<html>
+    <head>
+        <script id="synthesis-widget-script" src="https://test.ovid.com:8080/webcomponents/synthesis-integration-widget-script.js" data-clientID="Ovid_Discovery"></script>
+        <script src="https://unpkg.com/rxjs@7.5.5/dist/bundles/rxjs.umd.min.js"></script>
+    </head>
+    <body>
+        <div style="display:flex; justify-content: space-between;">
+            <div>
+                <h1>Application Stuff</h1>
+            <p>
+                Search Term: <input type="text" id="searchTerm">
+            </p>
+            <button onclick="showDemoElement()">Save Search To Synthesis</button>
+    
+            </div>
+    
+            <div>
+                <synthesis-integration-widget id="demoElement" style="width:400px" term="heart attack" data-clientID="Ovid_Discovery"></synthesis-integration-widgett>
+            </div>
+        </div>
+    </body>
+
+    <script>
+ 
+        const { Observable, fromEvent } = rxjs;
+        let demoElement = document.getElementById("demoElement");
+        demoElement.showWidget = false;
+
+        let searchTerm = document.getElementById("searchTerm");
+
+        let citationImport = [
+            {
+                title: 'test citation title1',
+                authors: 'authorA, authorB',
+                startPage: 'page10'
+            },
+            {
+                title: 'test citation title2',
+                authors: 'authorA, authorB',
+                startPage: 'page102'
+            }
+        ]
+
+        function showDemoElement() {
+            demoElement.term = searchTerm.value;
+            demoElement.showWidget = true;
+            demoElement.citationsInputData = citationImport;
+        }
+
+        fromEvent(document, 'synthesisWidgetProjectCreationSuccess').subscribe((value) => {
+            console.log(value.detail.eventData);
+            console.log('PROJECT Successfully created in Synthesis Widget');
+        });
+
+        document.addEventListener('synthesisWidgetProjectCreationSuccess', (ev) => {
+            console.log('PROJECT Successfully created in Synthesis Widget');
+            console.log(ev.detail.eventData);
+        });
+
+    </script>
+</html>
